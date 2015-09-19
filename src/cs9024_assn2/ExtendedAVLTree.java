@@ -236,18 +236,20 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      * in O(1) time.
      * Output: Integer, but it's irrelevant and used for storing height in each parent node as we come back up.
      * Time Complexity: O(m+n)
-     * As with all tree traversals, as long as all the operations at each node take O(1) time, so the total complexity is O(m+n).
      *
-     * 1. populateTree, takes in an empty tree and populates it. There are two key strategies:
+     * This algorithm employs a Euler Tour to populate the nodes in place and then capture their height property on their way back.
+     * As with all tree traversals, as long as each visit occurs in O(1) time, the total complexity is O(m+n).
+     *
+     * 1. 'populateTree', takes in an empty tree and populates it. There are two key strategies:
      *  a. We break the ArrayList representing the tree's nodes into sub problems by taking the index at the middle,
      *  adding it to the tree and then further slicing it.
-     *  b. The second key strategy is the fact that we use a EulerTraversal, we come back to the parent node after visiting
+     *  b. The second key strategy is the fact that we use a Euler Tour, we come back to the parent node after visiting
      *  it's children and adding it's height parameter.
-     * 2. We first determine the targetIndex.
+     * 2. We first determine the 'targetIndex'.
      * 3. We instantiate the root's left and right children nodes with null elements.
-     * 4. We then take connect the new children nodes to the root and set the root's element to the entry at the targetindex.
+     * 4. We then take connect the new children nodes to the root and set the root's element to the entry at the 'targetindex'.
      * 5. We cover four main cases:
-     *  a. We have no internal children (i.e. startIndex == endIndex), in which case we set the height of root's children to zero (they're leafs)
+     *  a. We have no internal children (i.e. 'startIndex' == 'endIndex'), in which case we set the height of root's children to zero (they're leafs)
      *  and return 1 (the height of root).
      *  b. We have one left child but no right internal child, we set the rightChild's height to zero, and we move into the left child.
      *  c. We have one right child but no left internal child, we set the leftChild's height to zero and we move into the right child.
@@ -267,12 +269,13 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
         leftHeight = 0;
         rightHeight = 0;
 
+        // Pre-order visit in O(1)
         AVLNode leftChild, rightChild;
         leftChild = new AVLNode(null, root, null, null);
         rightChild = new AVLNode(null, root, null, null);
-        root.setLeft(leftChild);
-        root.setRight(rightChild);
-        root.setElement(list.get(targetIndex));
+        root.setLeft(leftChild); // O(1)
+        root.setRight(rightChild); // O(1)
+        root.setElement(list.get(targetIndex)); // O(1)
 
         // if we're at last internal node add leafs
         if (startIndex == endIndex) {
@@ -295,8 +298,9 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
             leftHeight = populateTree(leftChild, startIndex, targetIndex-1, list);
             rightHeight = populateTree(rightChild, targetIndex+1, endIndex, list);
         }
-        nodeHeight = Math.max(leftHeight, rightHeight) + 1;
-        root.setHeight(nodeHeight);
+        // Post-order visit in O(1)
+        nodeHeight = Math.max(leftHeight, rightHeight) + 1; // O(1)
+        root.setHeight(nodeHeight); // O(1)
         return nodeHeight;
     }
 

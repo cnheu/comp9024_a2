@@ -34,17 +34,20 @@ public class cs9024_assn2_1 {
         for ( int i=0; i<6; i++)
             tree2.insert(keys2[i], values2[i]);
 
-        ExtendedAVLTree.print(tree1);
-        ExtendedAVLTree.print(tree2);
-        ExtendedAVLTree.print(ExtendedAVLTree.clone(tree1));
-        ExtendedAVLTree.print(ExtendedAVLTree.clone(tree2));
-//
-        ExtendedAVLTree.print(ExtendedAVLTree.merge(ExtendedAVLTree.clone(tree1),
-                ExtendedAVLTree.clone(tree2)));
+//        ExtendedAVLTree.print(tree1);
+//        ExtendedAVLTree.print(tree2);
+//        ExtendedAVLTree.print(ExtendedAVLTree.clone(tree1));
+//        ExtendedAVLTree.print(ExtendedAVLTree.clone(tree2));
+////
+//        ExtendedAVLTree.print(ExtendedAVLTree.merge(ExtendedAVLTree.clone(tree1),
+//                ExtendedAVLTree.clone(tree2)));
 
 //        nullTreePrintTest();
 //        nullTreeMergeTest();
 //        singleNodeTreePrintTest();
+//        singleNodeAddNodeTest();
+//        singleNodeAddRootTest();
+//        emptyTreeAddSingleNodeTest();
     }
 
     public static void nullTreePrintTest() {
@@ -96,6 +99,51 @@ public class cs9024_assn2_1 {
         ExtendedAVLTree.print(tree3);
 //        ExtendedAVLTree.print(tree2);
 
+    }
+
+    public static void singleNodeAddNodeTest() {
+        AVLTree<Integer, String> tree1=new AVLTree<Integer, String>();
+        String values1[]={"Tiger"};
+        int keys1[]={30};
+        tree1.insert(keys1[0],values1[0]);
+        ExtendedAVLTree.print(tree1);
+
+        tree1.insert(5, "Hello");
+        ExtendedAVLTree.print(tree1);
+
+    }
+
+    public static void singleNodeAddRootTest() {
+        AVLTree<Integer, String> tree1=new AVLTree<Integer, String>();
+        String values1[]={"Tiger"};
+        int keys1[]={30};
+        tree1.insert(keys1[0], values1[0]);
+        ExtendedAVLTree.print(tree1);
+
+        try {
+            tree1.addRoot(new BinarySearchTree.BSTEntry(5,"howdy",null));
+        }
+        catch (NonEmptyTreeException e) {
+            System.out.println("Could not add root since. You already have one.");
+        }
+        ExtendedAVLTree.print(tree1);
+
+    }
+
+    public static void emptyTreeAddSingleNodeTest() {
+        AVLTree<Integer, String> tree1=new AVLTree<Integer, String>();
+
+        try {
+            ExtendedAVLTree.print(tree1);
+        }
+        catch (EmptyTreeException e) {
+            System.out.println("Could not print an empty tree");
+        }
+
+
+        tree1.insert(5,"howdy");
+//        System.out.println(tree1.root.element().getKey());
+        ExtendedAVLTree.print(tree1);
 
     }
 }
