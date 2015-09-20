@@ -16,8 +16,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
     }
 
     /**
-     * clone - takes in input tree, and outputs a replica of the original tree by initialising a new node node and
-     * assigning properties during a pre-order traversal.
+     * clone - This class method creates an identical copy of the AVL tree specified by the parameter and returns a reference to the new AVL tree.
      *
      * clone only instantiates an empty tree and adds an empty node as the root.
      * It then calls the helper function cloneHelper to carry out the pre-order traversal.
@@ -87,14 +86,17 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
     }
 
     /**
-     * merge - merges two trees, tree1 and tree2 in O(m+ n) time.
-     * where the number of nodes in tree1 be m and the number of nodes in tree2 be n.
+     * merge - This class method merges two AVL trees, tree1 and tree2, into a new tree.
+     * After the merge, this method reclaims the unused original AVL trees and returns the new AVL tree.
+     *
+     * Time Complexity: O(m+n).
+     * Where m is the number of elements in tree1 and n is the number of elements in tree2.
      *
      * It calls several private methods which are explained in depth below.
      * 1. toSortedLinkedList = O(m) or O(n)
      * 2. mergeSortedLinkedLists = O(m+n)
      * 3. linkedListToArrayList = O(m+n)
-     * 4. populatetree = O(m+n)
+     * 4. populateTree = O(m+n)
      *
      * @param tree1
      * @param tree2
@@ -134,10 +136,8 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
     }
 
     /**
-     * toSortedLinkedListHelper - performs in order traversal starting with the smallest number.
+     * toSortedLinkedListHelper - performs in-order traversal with n-visits and each visit taking place in O(1) time.
      *
-     * Input: root node and the empty LL.
-     * Output: void, but updated LL
      * Time Complexity: O(n)
      *
      * We want a LL so that we get to use add and pop functions when merging the LL. We also do not need to maintain or traverse
@@ -323,13 +323,10 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      */
     public static void print(AVLTree tree) {
 
-//        AVLTree tempPrintTree = clone(tree);
-        AVLTree tempPrintTree = tree;
-        AVLNode root = (AVLNode) tempPrintTree.root();
+        AVLNode root = (AVLNode) tree.root();
         int rootHeight = root.height;
         HashMap<Integer,ArrayList<ArrayList>> store = new HashMap<>();
 
-//        System.out.println("Number of entries for tree: " + tree.size());
         if (tree.isEmpty()) {
             throw new EmptyTreeException("Cannot print an empty tree");
         }
@@ -347,10 +344,6 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.add(new TreeComponent(store));
         window.setVisible(true);
-
-//        tempPrintTree.root = null;
-//        tempPrintTree.numEntries = 0;
-
     }
 
     /**
@@ -369,13 +362,13 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      *  e. We add the padding required to 'tempNodeData' (the last information required).
      *  f. Finally we add 'tempNodeData' to the ArrayList at this level.
      * 3. Go Left
-     *  a. We must pass different information into the recursive call of printerHelper depending on the nodeType.
-     *  b. IF there is a leftChild, and the leftChild is not a leaf, then we simply make the recursive call to leftChild,
+     *  a. We must pass different information into the recursive call of printerHelper depending on the 'nodeType'.
+     *  b. IF there is a 'leftChild', and the 'leftChild' is not a leaf, then we simply make the recursive call to 'leftChild',
      *  set root to parent and add 1 to the level.
-     *  c. IF there is a leftChild, but the leftChild is a leaf, we have to first add temporary leafs (no element) to
+     *  c. IF there is a 'leftChild', but the leftChild is a leaf, we have to first add temporary leafs (no element) to
      *  the leftLeafChild before we move into it.
-     *  d. IF there is no leftChild, we need to instantiate a leftPlaceholderChild node. We follow a similar procedure to instantiate
-     *  the leftPlaceholderChild's children (which in turn can become placeholders).
+     *  d. IF there is no 'leftChild', we need to instantiate a 'leftPlaceholderChild' node. We follow a similar procedure to instantiate
+     *  the 'leftPlaceholderChild's children (which in turn can become placeholders).
      *  e. For b,c,d, cases, we nullify any placeholder nodes and BSTEntry objects AFTER the recursive call.
      * 4. Go Right - follows 3a-3e
      *
@@ -387,7 +380,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      */
     protected static void printHelper(AVLNode root, AVLNode parent, HashMap<Integer,ArrayList<ArrayList>> store, int rootHeight, int level) {
 
-        if (level > rootHeight) { // if we've passed the leaf node
+        if (level > rootHeight) { // if we're past the deepest leaf's level
             return;
         }
 
@@ -503,7 +496,8 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
         }
 
         /**
-         * countTreeNodes - helper function for counting the number of node in the treeStore array that aren't placeholders.
+         * countTreeNodes - helper function for counting the number of nodes in the 'treeStore' array that aren't placeholders.
+         *
          * @param treeStore
          * @return nodeCount
          */
@@ -527,16 +521,16 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
          *
          * Interprets the "treeStore" data structure and pulls out the information required to draw the elements.
          *
-         * "treeStore" consists of a HashMap dictionary. Each key represents a level, with level zero being the root.
-         * Each value in treeStore is an ArrayList ("treeLevelArray"), which itself consists of one or more ArrayLists ("nodeDatum") that contain node information.
+         * 'treeStore' consists of a HashMap dictionary. Each key represents a level, with level zero being the root.
+         * Each value in treeStore is an ArrayList ('treeLevelArray'), which itself consists of one or more ArrayLists ('nodeDatum') that contain node information.
          *
          * The algorithm consists of:
-         * 1. For loop, through the "treeStore", we process each node one at a time and determine how to draw them based on the "nodeType".
-         * 2. During the For Loop 1, we store information for lines into the ArrayList "nodePoints".
-         * 3. "nodePoints" is constructed so that it operates like a PriorityQueue. We loop through "nodePoints", we can then traverse the array
+         * 1. For loop, through the "treeStore", we process each node one at a time and determine how to draw them based on the 'nodeType'.
+         * 2. During the For Loop 1, we store information for lines into the ArrayList 'nodePoints'.
+         * 3. 'nodePoints' is constructed so that it operates like a PriorityQueue. We loop through 'nodePoints', we can then traverse the array
          * as though it were a tree, calculating on the fly the coordinates such that a branch leaving a parent node leaves at the centre-bottom of the parent shape and arrives
-         * as the centre-top of the child's shape. The information is used to populate "linePoints".
-         * 4. "linePoints" is then iterated through and used to draw each line.
+         * as the centre-top of the child's shape. The information is used to populate 'linePoints'.
+         * 4. 'linePoints' is then iterated through and used to draw each line.
          *
          * @param g
          */
@@ -575,22 +569,22 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
                     pointDatum.add(nodeType);
                     nodePoints.add(pointDatum);
 
-                    if (nodeType == "internal") {
+                    if (nodeType == "internal") { // Draw circle with black outline and Key string inside
                         BSTEntry nodeEntry = (BSTEntry) treeNodeArray.get(0);
                         String nodeKey = Integer.toString((int) nodeEntry.getKey());
                         g2.setColor(Color.black);
                         g2.draw(new Ellipse2D.Double(cursorX, cursorY, UNIT, UNIT));
                         g2.drawString(nodeKey, cursorX+5, cursorY+15);
                     }
-                    else if (nodeType == "external") {
+                    else if (nodeType == "external") { // Draw square with black outline
                         g2.setColor(Color.black);
                         g2.draw(new Rectangle(cursorX, cursorY, UNIT, UNIT));
                     }
-                    else { // placeholder
+                    else { // placeholder - draw invisible (alpha = 0) square.
                         g2.setColor(new Color(0, 0, 0, 0));
                         g2.fill(new Rectangle(cursorX, cursorY, UNIT, UNIT));
                     }
-                    cursorX += (paddingX + 1) * UNIT + UNIT; // add to the x-cursor after each node/placeholder
+                    cursorX += (paddingX + 1) * UNIT + UNIT; // increment the x-cursor after each node/placeholder
                 }
             }
 

@@ -35,11 +35,11 @@ public class cs9024_assn2_1 {
             tree2.insert(keys2[i], values2[i]);
 
         ExtendedAVLTree.print(tree1);
-//        ExtendedAVLTree.print(tree2);
+        ExtendedAVLTree.print(tree2);
         ExtendedAVLTree.print(ExtendedAVLTree.clone(tree1));
-//        ExtendedAVLTree.print(ExtendedAVLTree.clone(tree2));
-//        ExtendedAVLTree.print(ExtendedAVLTree.merge(ExtendedAVLTree.clone(tree1),
-//                ExtendedAVLTree.clone(tree2)));
+        ExtendedAVLTree.print(ExtendedAVLTree.clone(tree2));
+        ExtendedAVLTree.print(ExtendedAVLTree.merge(ExtendedAVLTree.clone(tree1),
+                ExtendedAVLTree.clone(tree2)));
 
 //        nullTreePrintTest();
 //        nullTreeMergeTest();
