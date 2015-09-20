@@ -23,13 +23,14 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      * It then calls the helper function cloneHelper to carry out the pre-order traversal.
      *
      * @param tree
-     * @return
+     * @return clonedTree
      *
      */
     public static AVLTree clone(AVLTree tree) {
 
         if (tree.isEmpty()) {
-            throw new EmptyTreeException("Cannot clone an empty tree");
+//            throw new EmptyTreeException("Cannot clone an empty tree");
+            return new ExtendedAVLTree<>();
         }
 
         AVLNode treeRoot = (AVLNode) tree.root;
@@ -97,7 +98,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      *
      * @param tree1
      * @param tree2
-     * @return
+     * @return tree3
      */
     public static AVLTree merge(AVLTree tree1, AVLTree tree2 ) {
         LinkedList LL1 = toSortedLinkedList(tree1);
@@ -121,10 +122,10 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      *
      * It calls the recursive function toSortedLinkedListHelper which takes O(n) time.
      *
-     * The output sortedLinkedList is in a descending order. I.e. the head node is the smallest key in the AVLTree.
+     * The output sortedLinkedList is in a ascending order. I.e. the head node is the smallest key in the AVLTree.
      *
      * @param tree
-     * @return
+     * @return sortedLinkedList
      */
     public static LinkedList toSortedLinkedList(AVLTree tree) {
         LinkedList sortedLinkedList = new LinkedList(); // O(1)
@@ -140,29 +141,36 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      * Time Complexity: O(n)
      *
      * We want a LL so that we get to use add and pop functions when merging the LL. We also do not need to maintain or traverse
-     * the sorted LL in mergeSortedLinkedLists so this enables us to stay in O(m+n) complexity.
+     * the sorted LL in 'mergeSortedLinkedLists so this enables us to stay in O(m+n) complexity.
      *
      * @param root
      * @param LL
      */
     private static void toSortedLinkedListHelper(AVLNode root, LinkedList LL) {
-        if (root.getLeft() == null && root.getRight() == null) { // if we've reached leaf
+        // If we've reached leaf/external node
+        if (root.getLeft() == null && root.getRight() == null) {
             return;
         }
-        if (root.getLeft() != null) { // go left
+        // Go Left
+        if (root.getLeft() != null) {
             toSortedLinkedListHelper((AVLNode) root.getLeft(), LL);
         }
-        LL.addLast(root.element()); // perform visit
-        if (root.getRight() != null) { // go right
+
+        LL.addLast(root.element()); // Perform Visit O(1)
+
+        // Go Right
+        if (root.getRight() != null) {
             toSortedLinkedListHelper((AVLNode) root.getRight(), LL);
         }
     }
 
     /**
      * mergeSortedLinkedLists
-     * Input: Two sorted LL's representing tree1 and tree2.
-     * Output: A merged, sorted LL which will represent tree3.
+
      * Time Complexity: O(m+n)
+     *
+     * The two input sorted LLs 'a', 'b' will be used to populate a new LL 'c'.
+     * We visit every element once and in O(1) time to make total time complexity of O(m+n).
      *
      * 1. Initialises empty LL 'c'.
      * 2. For loop iterates over m+n times, this is given by 'limit'.
@@ -172,7 +180,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      *
      * @param a
      * @param b
-     * @return
+     * @return c
      */
     private static LinkedList mergeSortedLinkedLists(LinkedList a, LinkedList b) {
         int limit = a.size() + b.size(); // O(1)
@@ -210,14 +218,13 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
     /**
      * linkedListToArrayList
      *
-     * Input: single LL (representing tree3 with m+n) elements.
-     * Output: ArrayList representing tree3 with m+n elements.
      * Time Complexity: O(m+n)
      *
      * We require an ArrayList for constant time indexing when we perform populateTree.
+     * This algorithm simply goes through each entry and appends it to the ArrayList before returning it.
      *
      * @param LL
-     * @return
+     * @return AL
      */
     private static ArrayList linkedListToArrayList(LinkedList LL){
         int limit = LL.size(); // O(1)
@@ -261,7 +268,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      * @param startIndex
      * @param endIndex
      * @param list
-     * @return
+     * @return nodeHeight
      */
     private static Integer populateTree(AVLNode root, int startIndex, int endIndex, ArrayList list) {
         int targetIndex = (startIndex + endIndex)/2;
@@ -301,21 +308,23 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
         // Post-order visit in O(1)
         nodeHeight = Math.max(leftHeight, rightHeight) + 1; // O(1)
         root.setHeight(nodeHeight); // O(1)
+
         return nodeHeight;
     }
 
     /**
      * print - prints out an AVLTree in an external window using JFrame
      *
-     * The first part essentially instantiates a clone of the original tree and a HashMap "store".
-     * We use the printHelper perform a pre-order traversal and put all the data required for rendering in "store"
+     * The first part essentially instantiates a clone of the original tree and a HashMap 'store'.
+     * We use the printHelper perform a pre-order traversal and put all the data required for rendering in 'store'
      * The second part applies the subclass TreeComponent and adds it to the JFrame object to be rendered.
      *
      * @param tree
      */
     public static void print(AVLTree tree) {
 
-        AVLTree tempPrintTree = clone(tree);
+//        AVLTree tempPrintTree = clone(tree);
+        AVLTree tempPrintTree = tree;
         AVLNode root = (AVLNode) tempPrintTree.root();
         int rootHeight = root.height;
         HashMap<Integer,ArrayList<ArrayList>> store = new HashMap<>();
@@ -339,13 +348,13 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
         window.add(new TreeComponent(store));
         window.setVisible(true);
 
-        tempPrintTree.root = null;
-        tempPrintTree.numEntries = 0;
+//        tempPrintTree.root = null;
+//        tempPrintTree.numEntries = 0;
 
     }
 
     /**
-     * printHelper - performs a pre-order traversal and records key information inside the "store".
+     * printHelper - performs a pre-order traversal and records key information inside the 'store'.
      *
      * The variable store's structure can be described as the following:
      * { level : [[BSTEntry node1, String "internal" || "external" || "null", int padding],
@@ -353,12 +362,12 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      *
      * 1. Base Case: if level parameter exceeds the rootHeight, then we know we've gone PAST the leaf node.
      * 2. Visit
-     *  a. If the store has no key for this level, we add a new ArrayList which holds the MAX number of nodes at this level.
+     *  a. If the 'store' has no key for this 'level', we add a new ArrayList which holds the MAX number of nodes at this 'level'.
      *  b. We assess whether the node is external, internal or a null placeholder (that we use for printing).
      *  c. We use the parent parameter, to indicate to us whether we are reading an external (leaf) node or a null placeholder.
-     *  d. We add a pointer to the Entry at the node and a string indicator of the nodeType to tempNodeData.
-     *  e. We add the padding required to tempNodeData (the last information required).
-     *  f. Finally we add tempNodeData to the ArrayList at this level.
+     *  d. We add a pointer to the Entry at the node and a string indicator of the 'nodeType' to 'tempNodeData'.
+     *  e. We add the padding required to 'tempNodeData' (the last information required).
+     *  f. Finally we add 'tempNodeData' to the ArrayList at this level.
      * 3. Go Left
      *  a. We must pass different information into the recursive call of printerHelper depending on the nodeType.
      *  b. IF there is a leftChild, and the leftChild is not a leaf, then we simply make the recursive call to leftChild,
@@ -368,6 +377,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      *  d. IF there is no leftChild, we need to instantiate a leftPlaceholderChild node. We follow a similar procedure to instantiate
      *  the leftPlaceholderChild's children (which in turn can become placeholders).
      *  e. For b,c,d, cases, we nullify any placeholder nodes and BSTEntry objects AFTER the recursive call.
+     * 4. Go Right - follows 3a-3e
      *
      * @param root
      * @param parent
@@ -399,7 +409,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
         else {
             tempNodeData.add(null);
             if (parent.element() != null) {
-                tempNodeData.add("external"); // External/Leaf Placeholder
+                tempNodeData.add("external"); // External/Leaf
             }
             else {
                 tempNodeData.add("null"); // Null Placeholder
@@ -443,7 +453,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
             root.setLeft(null);
         }
         // Go Right
-        if (root.getRight().element() != null) {
+        if (root.getRight() != null) {
             if (root.getRight().element() != null) { // internal
                 printHelper((AVLNode) root.getRight(), root, store, rootHeight, level + 1);
             }
@@ -495,7 +505,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
         /**
          * countTreeNodes - helper function for counting the number of node in the treeStore array that aren't placeholders.
          * @param treeStore
-         * @return
+         * @return nodeCount
          */
         public int countTreeNodes(HashMap<Integer,ArrayList<ArrayList>> treeStore) {
             int nodeCount = 0;

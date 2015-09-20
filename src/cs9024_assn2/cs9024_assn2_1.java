@@ -34,11 +34,10 @@ public class cs9024_assn2_1 {
         for ( int i=0; i<6; i++)
             tree2.insert(keys2[i], values2[i]);
 
-//        ExtendedAVLTree.print(tree1);
+        ExtendedAVLTree.print(tree1);
 //        ExtendedAVLTree.print(tree2);
-//        ExtendedAVLTree.print(ExtendedAVLTree.clone(tree1));
+        ExtendedAVLTree.print(ExtendedAVLTree.clone(tree1));
 //        ExtendedAVLTree.print(ExtendedAVLTree.clone(tree2));
-////
 //        ExtendedAVLTree.print(ExtendedAVLTree.merge(ExtendedAVLTree.clone(tree1),
 //                ExtendedAVLTree.clone(tree2)));
 
@@ -68,8 +67,6 @@ public class cs9024_assn2_1 {
         AVLTree<Integer, String> tree3 = ExtendedAVLTree.merge(ExtendedAVLTree.clone(tree1),
                 ExtendedAVLTree.clone(tree2));
 
-//        System.out.println(tree2.root.element().getKey());
-//        System.out.println(tree3.root.element().getKey());
         ExtendedAVLTree.print(tree3);
         ExtendedAVLTree.print(tree2);
     }
@@ -147,47 +144,3 @@ public class cs9024_assn2_1 {
 
     }
 }
-//        LinkedList LL1 = ExtendedAVLTree.toSortedLinkedList(tree1);
-//        LinkedList LL2 = ExtendedAVLTree.toSortedLinkedList(tree2);
-
-//        for (int i = 0 ; i<LL1.size(); i ++) {
-//            BinarySearchTree.BSTEntry myEntry = (BinarySearchTree.BSTEntry) LL1.get(i);
-//            System.out.println(myEntry.getKey());
-//        }
-//        System.out.println("--------");
-//        for (int i = 0 ; i<LL2.size(); i ++) {
-//            BinarySearchTree.BSTEntry myEntry = (BinarySearchTree.BSTEntry) LL2.get(i);
-//            System.out.println(myEntry.getKey());
-//        }
-//
-//        System.out.println("--------");
-//
-//
-//        LinkedList LL3 = ExtendedAVLTree.mergeSortedLinkedLists(LL1, LL2);
-//        for (int i = 0 ; i<LL3.size(); i ++) {
-//            BinarySearchTree.BSTEntry myEntry = (BinarySearchTree.BSTEntry) LL3.get(i);
-//            System.out.println(myEntry.getKey());
-////            System.out.println(LL3.get(i));
-//        }
-//
-//        ArrayList AL3 = ExtendedAVLTree.linkedListToArrayList(LL3);
-//        for (int i = 0; i<AL3.size(); i++) {
-//            BinarySearchTree.BSTEntry myEntry = (BinarySearchTree.BSTEntry) AL3.get(i);
-//            System.out.println(myEntry.getKey());
-////            System.out.println(AL3.get(i));
-//        }
-//
-//        AVLTree tree3 = new AVLTree();
-//        AVLTree.AVLNode tree3root = new AVLTree.AVLNode();
-//        tree3.root = tree3root;
-//        ExtendedAVLTree.populateTree((AVLTree.AVLNode) tree3.root(), 0, AL3.size() - 1, AL3);
-//        ExtendedAVLTree.print(tree3);
-//        BinarySearchTree.BSTEntry rootEntry = (BinarySearchTree.BSTEntry) tree3.root().element();
-//        BinarySearchTree.BSTEntry rootLeftEntry = (BinarySearchTree.BSTEntry) ((AVLTree.AVLNode) tree3.root()).getLeft().element();
-//        BinarySearchTree.BSTEntry rootRightEntry = (BinarySearchTree.BSTEntry) ((AVLTree.AVLNode) tree3.root()).getRight().element();
-//
-//        System.out.println(rootEntry.getKey());
-//        System.out.println(rootLeftEntry.getKey());
-//        System.out.println(rootRightEntry.getKey());
-//        ExtendedAVLTree.print(tree1);
-//        ExtendedAVLTree.print(tree2);
