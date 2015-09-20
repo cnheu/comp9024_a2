@@ -1,3 +1,5 @@
+
+
 package cs9024_assn2;
 
 import javax.swing.*;
@@ -8,7 +10,18 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * Created by christophernheu on 8/09/15.
+ * COMP9024 - Semester 2, 2015
+ * University of New South Wales
+ *
+ * Author: Christopher Nheu
+ * Author ID: z3240967
+ *
+ * ExtendedAVLTree provides three main public methods that extend the AVLTree class:
+ * 1. clone
+ * 2. print
+ * 3. merge
+ *
+ * It also contains several protected methods and a protected, nested class call TreeComponent used for print.
  */
 public class ExtendedAVLTree<K,V> extends AVLTree {
     public ExtendedAVLTree() {
@@ -129,7 +142,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      * @param tree
      * @return sortedLinkedList
      */
-    public static LinkedList toSortedLinkedList(AVLTree tree) {
+    protected static LinkedList toSortedLinkedList(AVLTree tree) {
         LinkedList sortedLinkedList = new LinkedList(); // O(1)
         toSortedLinkedListHelper((AVLNode) tree.root, sortedLinkedList); // O(n)
         return sortedLinkedList;
@@ -146,7 +159,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      * @param root
      * @param LL
      */
-    private static void toSortedLinkedListHelper(AVLNode root, LinkedList LL) {
+    protected static void toSortedLinkedListHelper(AVLNode root, LinkedList LL) {
         // If we've reached leaf/external node
         if (root.getLeft() == null && root.getRight() == null) {
             return;
@@ -182,7 +195,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      * @param b
      * @return c
      */
-    private static LinkedList mergeSortedLinkedLists(LinkedList a, LinkedList b) {
+    protected static LinkedList mergeSortedLinkedLists(LinkedList a, LinkedList b) {
         int limit = a.size() + b.size(); // O(1)
         LinkedList c = new LinkedList(); // O(1)
 
@@ -226,7 +239,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      * @param LL
      * @return AL
      */
-    private static ArrayList linkedListToArrayList(LinkedList LL){
+    protected static ArrayList linkedListToArrayList(LinkedList LL){
         int limit = LL.size(); // O(1)
         ArrayList AL = new ArrayList(limit); // O(1)
 
@@ -270,7 +283,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      * @param list
      * @return nodeHeight
      */
-    private static Integer populateTree(AVLNode root, int startIndex, int endIndex, ArrayList list) {
+    protected static Integer populateTree(AVLNode root, int startIndex, int endIndex, ArrayList list) {
         int targetIndex = (startIndex + endIndex)/2;
         int leftHeight,rightHeight,nodeHeight;
         leftHeight = 0;
@@ -313,7 +326,8 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
     }
 
     /**
-     * print - prints out an AVLTree in an external window using JFrame
+     * print - This class method creates a new window and prints the AVL tree specified by the parameter on the new window.
+     * Each internal node is displayed by a circle containing its key and each external node is displayed by a rectangle.
      *
      * The first part essentially instantiates a clone of the original tree and a HashMap 'store'.
      * We use the printHelper perform a pre-order traversal and put all the data required for rendering in 'store'
@@ -479,18 +493,18 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
      * The treeStore ArrayList is passed into TreeComponent for initialisation.
      * When the instantiated object of TreeComponent is "added" to a JFrame, paintComponent is run.
      */
-    public static class TreeComponent extends JComponent {
+    protected static class TreeComponent extends JComponent {
 
         int UNIT = 18; //arbitrarily picked and optimises for a 13" 2560 pixel wide display.
 
         HashMap<Integer,ArrayList<ArrayList>> treeStore;
 
-        public TreeComponent(){
+        protected TreeComponent(){
             this.treeStore = null;
             System.out.println("Please enter a tree to print.");
         }
 
-        public TreeComponent(HashMap<Integer,ArrayList<ArrayList>> treeStore) {
+        protected TreeComponent(HashMap<Integer,ArrayList<ArrayList>> treeStore) {
 
             this.treeStore = treeStore;
         }
@@ -501,7 +515,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
          * @param treeStore
          * @return nodeCount
          */
-        public int countTreeNodes(HashMap<Integer,ArrayList<ArrayList>> treeStore) {
+        protected int countTreeNodes(HashMap<Integer,ArrayList<ArrayList>> treeStore) {
             int nodeCount = 0;
             for (int i = 0; i < treeStore.size(); i++) {
                 ArrayList treeLevelArray = this.treeStore.get(i);
@@ -534,7 +548,7 @@ public class ExtendedAVLTree<K,V> extends AVLTree {
          *
          * @param g
          */
-        public void paintComponent(Graphics g) {
+        protected void paintComponent(Graphics g) {
             int cursorX, cursorY; // used to track the cursor when drawing the tree's nodes
             int spacingX, spacingY; // used to set constant spacing between nodes, based onthe total tree size.
             int treeHeight = treeStore.size();

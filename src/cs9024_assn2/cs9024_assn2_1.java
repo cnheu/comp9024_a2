@@ -2,7 +2,12 @@ package cs9024_assn2;
 
 
 /**
- * Created by christophernheu on 8/09/15.
+ * COMP9024 - Semester 2, 2015
+ * University of New South Wales
+ *
+ * Author: Christopher Nheu
+ * Author ID: z3240967
+ *
  */
 public class cs9024_assn2_1 {
     public static void main(String[] args)
